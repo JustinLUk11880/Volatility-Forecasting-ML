@@ -1,14 +1,22 @@
 # volatility-forecasting-ml
 
-Time-series volatility forecasting and risk modeling study using **classical models** and **machine learning** approaches. This repository contains data, research notebooks, and the src package for building reproducible experiments and robust backtesting pipelines.
+Results (Out-of-sample: 2024–2026)
 
-## Project structure
+We benchmarked all models against a strong persistence baseline (future volatility ≈ current realized volatility).
 
-- `data_raw/` — raw market data (kept out of version control unless small or synthetic)
-- `data_processed/` — engineered datasets ready for modeling
-- `notebooks/` — research and exploration notebooks
-- `src/` — Python package and project code
+Overall forecast accuracy (volatility units):
 
----
+Baseline: MAE 0.0217, RMSE 0.0415
 
-_This is an initial project scaffold. No modeling code has been added yet._
+GBR: MAE 0.0199, RMSE 0.0344
+GBR improves MAE by ~8% and RMSE by ~17%, reducing large forecast errors.
+
+Regime analysis (top 20% “high-vol” days vs the rest):
+
+Low/normal-vol regime (80% of days): MAE 0.01524 → 0.01452, RMSE 0.02045 → 0.01940
+
+High-vol regime (20% of days): MAE 0.04725 → 0.04138, RMSE 0.08311 → 0.06629
+Improvements are concentrated during stress regimes, where risk management value is highest.
+
+Practical use-case: volatility targeting
+We used volatility forecasts to scale exposure via a simple volatility-targeting overlay (position size ∝ target_vol / forecast_vol, clipped). This demonstrates how risk forecasts translate into portfolio sizing decisions.
